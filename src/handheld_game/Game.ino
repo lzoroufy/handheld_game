@@ -1,3 +1,8 @@
+/*
+ * Game class contains the code for the main game play.
+ * This class manages code for generating targets and displaying the scope.
+ * The code for the interrupt buttons are here.
+ */
 #include "Game.h"
 #include "Ammo.h"
 #include "Timer.h"
@@ -65,6 +70,7 @@ void Game::end_game(){
   disp->led_off();
   set_lights(0);
 }
+//game_loop manages the time in the round and the time to generate new targets.
 void Game::game_loop(){
   long rc = 500;
   Timer *game_clock = new Timer(game_time);
@@ -108,11 +114,13 @@ void Game::set_target(){
   new Target();
   scope->set_scope();
 }
+//Function for left button to trigger relaoding sequence
 void left(){
   cli();
   reloading = 1;
   sei();
 }
+//Function for right button to trigger fire sequence
 void shoot(){
   cli();
   if(reloading == 0){

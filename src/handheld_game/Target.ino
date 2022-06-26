@@ -1,3 +1,6 @@
+/*
+ * This class generates targets for the player to shoot.
+ */
 #include "Target.h"
 #include "Screen.h"
 #include "Target_list.h"
@@ -9,6 +12,7 @@ Target::Target(){
 }
 Target::~Target(){
 }
+//Creates a target of a random location and size
 void Target::create_target(){
   int s = random(0,3);
   int x = 0;
@@ -27,6 +31,7 @@ void Target::create_target(){
   }
   set_target(x,y,s);
 }
+//set_target sets the size and point value of the targets
 void Target::set_target(int x, int y, int s){
   int r = 0;
   int p = 0;
@@ -44,6 +49,7 @@ void Target::set_target(int x, int y, int s){
   }
   add_target(x,y,r);
 }
+//add_target displays the target to the screen if it is not overlapping with another target 
 void Target::add_target(int x, int y, int r){
   int avail = 1;
   for(int i = 0; i < r; i++){

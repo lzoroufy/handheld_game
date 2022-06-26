@@ -1,3 +1,7 @@
+/*
+ * Ammo class tracks the shots used.  Also controlls LEDs to visually display shots used.
+ * Contains option for 5 shot round or 3 shot round.
+ */
 #include "Ammo.h"
 #include "Screen.h"
 

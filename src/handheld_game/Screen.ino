@@ -1,3 +1,6 @@
+/*
+ * The Screen class contains the code for the microcontroller to interact with the screen using SPI protocol
+ */
 #include <SPI.h>
 #include "Screen.h"
 
@@ -18,6 +21,7 @@ Screen::Screen(){
 }
 Screen::~Screen(){
 }
+//LED functions controll the backlight of the screen
 void Screen::led_on(){
   digitalWrite(led,HIGH);
   LED_status = 1;
@@ -39,8 +43,9 @@ void Screen::led_switch(){
     led_on();
   }
 }
+
 void Screen::write(byte data){
-  //Tell the LCD that we are writing either to data or a command
+  //Tell the LCD that we are writing to data
   digitalWrite(dc, HIGH);
 
   //Send the data
@@ -49,7 +54,7 @@ void Screen::write(byte data){
   digitalWrite(ss, HIGH);
 }
 void Screen::command(byte data){
-  //Tell the LCD that we are writing either to data or a command
+  //Tell the LCD that we are writing either to a command
   digitalWrite(dc, LOW);
 
   //Send the data
@@ -57,16 +62,19 @@ void Screen::command(byte data){
   SPI.transfer(data);
   digitalWrite(ss, HIGH);
 }
+//sets the placement of the pixel curser
 void Screen::goto_XY(int x, int y){
   command(0x80 | x);
   command(0x40 | y);
 }
+//writes the pixelMap to the screen
 void Screen::update(){
   goto_XY(0, 0);
   for(int i = 0; i < 504; i++){
     write(displayMap[i]);
   }
 }
+//clears all of the pixels to off
 void Screen::clear(){
   goto_XY(0, 0);
   for(int i = 0; i < 504; i++){
@@ -74,12 +82,14 @@ void Screen::clear(){
   }
   update();
 }
+//temporarily sets the screen to blank without saving over the pixelMap
 void Screen::hide(){
   goto_XY(0, 0);
   for(int i = 0; i < 504; i++){
     write(0x00);
   }
 }
+//inverts each pixel on the screen
 void Screen::invert_screen(){
   for(int i = 0; i < 84; i++){
     for(int j = 0; j < 48; j++){
@@ -87,6 +97,7 @@ void Screen::invert_screen(){
     }
   }
 }
+//sends a list of commands to reset the screen
 void Screen::reset(){
   digitalWrite(rst,LOW);
   digitalWrite(rst,HIGH);
@@ -98,6 +109,7 @@ void Screen::reset(){
   command(0x20);
   command(0x0C); //Set display control, normal mode.
 }
+//prints a char to the X,Y coordinate specified
 void Screen::set_char(char c, int x, int y){
   byte column; // temp byte to store character's column bitmap
   for (int i=0; i<5; i++) // 5 columns (x) per character
@@ -112,6 +124,7 @@ void Screen::set_char(char c, int x, int y){
     }
   }
 }
+//Functions to manipulate individual pixels
 void Screen::set_pixel(int x, int y){
   if(x>=0 && x<84 && y>=0 && y<48){
     y = 47 - y;

@@ -1,3 +1,7 @@
+/*
+ * Main class that hold the game flow.
+ * contains the interrupts for the buttons and the code to display the score
+ */
 #include <SparkFun_MMA8452Q.h>
 #include "Screen.h"
 #include "Game.h"
@@ -11,7 +15,7 @@ void left();
 volatile int reloading;
 
 void setup() {
-  // put your setup code here, to run once:
+  //attach interrupts to the right and left buttons
   attachInterrupt(digitalPinToInterrupt(right_button), shoot, RISING);
   attachInterrupt(digitalPinToInterrupt(left_button), left, RISING);
 }
@@ -22,6 +26,14 @@ long t;
 int r;
 int a;
 int score = 0;
+/*game flow
+ * clear screen
+ * run target round
+ * save score
+ * remove instants of game
+ * display score
+ * repeat
+ */
 void loop() {
   disp->update();
   disp->clear();
@@ -32,6 +44,7 @@ void loop() {
   display_score();
   delay(10000);
 }
+//displays the score of the round played by the player
 void display_score(){
   disp -> clear();
   disp -> update();

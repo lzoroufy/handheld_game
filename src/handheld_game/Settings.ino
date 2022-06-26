@@ -1,3 +1,7 @@
+/*
+ * The Settings class is an optional class to manipulate the parameters of the game.
+ * This class contains code to read input from a series of four switches as well as display a settings menu on the screen
+ */
 #include "Settings.h"
 #include "Screen.h"
 

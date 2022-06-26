@@ -1,3 +1,6 @@
+/*
+ * Timer class is a simple class that starts, stops, and resets a timer.
+ */
 #include "Timer.h"
 
 Timer::Timer(long t){
